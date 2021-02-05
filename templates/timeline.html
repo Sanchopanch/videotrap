@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title>Камера</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename= 'css/time.css') }}" rel="stylesheet">
+      <link href="{{ url_for('static', filename= 'css/picture.css') }}" rel="stylesheet" type="text/css">
+      <link href="{{ url_for('static', filename= 'css/arrow.css') }}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <!-- Custom styles for this template -->
+
+<body>
+
+<div class="box">
+    {% for ddd,dic in restoredDict.items() %}
+    <ul id="first-list">
+        {% for hhh,lis in dic.items() %}
+        <li style='background-color:rgba(255, 255, 255, 0.1);'>
+            <span></span>
+            <div class="title">{{ hhh }}</div>
+            <div class="info">
+
+
+            {% for frame in lis %}
+
+            <img src="/img/{{ frame[0] }}" class="minimized" maximize="/img/{{ frame[1] }}">
+            {% endfor %}
+            </div>
+            <div class="time">
+                <!--span>JUN, 17<sup>th</sup></span-->
+                <span>{{ hhh }}</span>
+            </div>
+        </li>
+        {% endfor %}
+        <li style='background-color:#71D1AA;'>
+            <span></span>
+            <div class="title">
+                {{ ddd.split('.')[2] }}
+
+                    <div class="arrow-7">
+	                    <span></span>
+	                    <span></span>
+
+                    </div>
+
+            </div>
+            <div class="time">
+                   <span>{{ ddd.split('.')[0] }}<sup>{{ ddd.split('.')[1] }}</sup></span>
+                   <span>
+                   </span>
+            </div>
+        </li>
+
+    </ul>
+    {% endfor %}
+            <script type="text/javascript" src="{{ url_for('static', filename= 'js/picture.js') }}"></script>
+            <script type="text/javascript">$('.fz__minimized').litezoom({speed:400, viewTitle:true});</script>
+            <script type="text/javascript" src="{{ url_for('static', filename= 'js/time.js') }}"></script>
+</div>
+
+</body>
+
+</html>

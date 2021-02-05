@@ -1,0 +1,35 @@
+
+.arrow-7 {
+    margin: 1px auto auto 150px;
+	width: 20px;
+
+}
+.arrow-7 span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-bottom: 2px solid #337AB7;
+    border-right: 2px solid #337AB7;
+    transform: rotate(45deg);
+    margin: -10px 0;
+    animation: arrow-7 1s infinite;
+}
+.arrow-7 span:nth-child(2){
+    animation-delay: -0.2s;
+}
+.arrow-7 span:nth-child(3){
+    animation-delay: -0.5s;
+}
+@keyframes arrow-7 {
+    0%{
+        opacity: 0;
+        transform: translate(0,1px) rotate(225deg);
+    }
+    50%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+        transform: translate(0,-6px) rotate(225deg);
+    }
+}
