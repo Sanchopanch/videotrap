@@ -30,7 +30,8 @@
 
             {% for frame in lis %}
 
-            <img src="/img/{{ frame[0] }}" class="minimized" maximize="/img/{{ frame[1] }}">
+            <img src="/img/{{ frame[0] }}" class="minimized" maximize="/img/{{ frame[1] }}"
+                 minim = "/img/{{ frame[0] }}" gifi ="/img/{{ frame[2] }}">
             {% endfor %}
             </div>
             <div class="time">
@@ -61,7 +62,7 @@
     </ul>
     {% endfor %}
             <script type="text/javascript" src="{{ url_for('static', filename= 'js/picture.js') }}"></script>
-            <script type="text/javascript">$('.fz__minimized').litezoom({speed:400, viewTitle:true});</script>
+            <script type="text/javascript">$('.minimized').litezoom({speed:400, viewTitle:true});</script>
             <script type="text/javascript" src="{{ url_for('static', filename= 'js/time.js') }}"></script>
 </div>
 
