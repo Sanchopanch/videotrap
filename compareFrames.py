@@ -1,9 +1,9 @@
 import cv2
 
 def compareFrames(frame1,frame2, tolerance = 150):
-    gray = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)  # For converting the frame color to gray scale
-    gray = cv2.GaussianBlur(gray, (21, 21), 0)  # For converting the gray scale frame to GaussianBlur
-    delta_frame = cv2.absdiff(frame1, gray)  # calculates the difference between first and other frames
+#    gray = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)  # For converting the frame color to gray scale
+#    gray = cv2.GaussianBlur(gray, (21, 21), 0)  # For converting the gray scale frame to GaussianBlur
+    delta_frame = cv2.absdiff(frame1, frame2)  # calculates the difference between first and other frames
     thresh_delta = cv2.threshold(delta_frame, 30, 255, cv2.THRESH_BINARY)[1]
     thresh_delta = cv2.dilate(thresh_delta, None, iterations=0)
     # Provides threshold value, so if the difference is <30 it will turn to black otherwise if >30 pixels will turn to white
@@ -28,7 +28,7 @@ def surroundRecs(recs):
     for rec in recs:
         minx = rec[0] if minx > rec[0] else minx
         miny = rec[1] if miny > rec[1] else miny
-        maxx = rec[0] + rec[2] if maxx < rec[0] + rec[2] else maxx
-        maxy = rec[1] + rec[3] if maxy < rec[1] + rec[3] else maxy
+        maxx = rec[2] if maxx < rec[2] else maxx
+        maxy = rec[3] if maxy < rec[3] else maxy
 
     return  [minx,miny,maxx,maxy]
