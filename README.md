@@ -8,8 +8,8 @@ No clouds, no tarif plans for you...
 I am planing to use this system to care for old parents in thir home
 
 Example time line in mobile browser:
-<img src='images\exTL.png'>
+<img src='images\exTL.png' height='200'>
 
 on click or touch little picture it perlesed to GIF moove like this:
-<img src='exPic.gif'>
+<img src='images\exPic.gif'>
 if you click on this pic again you see picture in original size on screen
