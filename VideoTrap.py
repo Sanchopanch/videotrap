@@ -18,6 +18,7 @@ class videoTrap():
         os.mkdir(self.workPath)
         self.fileState = self.workPath + '/dataState.pickle'
         self.fileTrack = self.workPath + '/dataTrack.pickle'
+        self.scale_percent = 20
         pass
 
     # load current state if videowTrap object from shared mem
@@ -53,12 +54,11 @@ class videoTrap():
             if tstam-lastFrame[0]<3.5 and not len(restoredList)>10:  #sec , 10 frames GIF maximum
                 restoredList.append([tstam, frame])
             else:
-                fGIF = createGif(restoredList)  # creating file from frames
+                fGIF = createGif(restoredList, self.workPath,self.scale_percent)  # creating file from frames
         # cv2.rectangle(frame, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
                 frame = restoredList[int(len(restoredList)*.49)][1]
-                scale_percent = 10
-                width = int(frame.shape[1] * scale_percent / 100)
-                height = int(frame.shape[0] * scale_percent / 100)
+                width = int(frame.shape[1] * self.scale_percent / 100)
+                height = int(frame.shape[0] * self.scale_percent / 100)
                 frameSm = cv2.resize(frame, (width, height))
 
                 restoredDict, fName, fNameFull = appendHour(restoredDict, tstam, fGIF)
@@ -72,7 +72,15 @@ class videoTrap():
 
     def renderTimeLine(self):
         restoredDict,restoredList = self.loadState()
-        return render_template('timeline.html', restoredDict = restoredDict)
+        days = list(restoredDict.keys())
+        LastDay, lastHour ='',''
+        if len(days)>0:
+            LastDay  = days[0]
+            lastHour = list(restoredDict[LastDay].keys())[0]
+        return render_template('timeline.html',
+                               restoredDict = restoredDict
+                               ,LastDay = LastDay
+                               ,lastHour = lastHour)
 
 
     async def capFrames(self):

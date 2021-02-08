@@ -3,26 +3,25 @@ import imageio, numpy as np
 import cv2
 import time,datetime
 
-def createGif(restoredList):
+def createGif(restoredList, path, scale_percent):
     now = datetime.datetime.now()
     timestr = now.strftime("%Y-%m-%d-%H-%M-%S-%f")
     lavY,valX,_ = restoredList[0][1].shape
     timeStart = time.time()
     try:
-        os.mkdir('/dev/shm/videoTrap/' + timestr)
+        os.mkdir(path + '/' + timestr)
     except:
         return
     filePics = []
     for i,cadr in enumerate(restoredList):
         frame = cadr[1]
-        scale_percent = 10
         width = int(frame.shape[1] * scale_percent / 100)
         height = int(frame.shape[0] * scale_percent / 100)
         frameSm = cv2.resize(frame, (width, height))
-        fileName = '/dev/shm/videoTrap/' + timestr + '/' + str('{:04}'.format(i)) + '.jpg'
+        fileName = path+'/' + timestr + '/' + str('{:04}'.format(i)) + '.jpg'
         cv2.imwrite(fileName, frameSm)  #[y1:y2, x1:x2])
         filePics.append(fileName)
-    nameGIF = '/dev/shm/videoTrap/'+timestr+'.gif'
+    nameGIF = path+ '/'+timestr+'.gif'
     with imageio.get_writer(nameGIF, mode='I',fps=2) as writer:
         for filename in filePics:
             image = imageio.imread(filename)
@@ -30,7 +29,7 @@ def createGif(restoredList):
 
     for filename in filePics:
         os.remove(filename)
-    os.rmdir('/dev/shm/videoTrap/' + timestr)
+    os.rmdir(path + '/' + timestr)
     dtim = (-timeStart + time.time())
     print(timestr + " kadrs="+str(len(restoredList))+" time="+str(dtim))
     return timestr+'.gif'
