@@ -53,7 +53,7 @@ class videoTrap():
             if tstam-lastFrame[0]<3.5 and not len(restoredList)>10:  #sec , 10 frames GIF maximum
                 restoredList.append([tstam, frame])
             else:
-                fGIF = createGif(restoredList)  # creating file from frames
+                fGIF = createGif(restoredList, self.workPath)  # creating file from frames
         # cv2.rectangle(frame, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
                 frame = restoredList[int(len(restoredList)*.49)][1]
                 scale_percent = 10
