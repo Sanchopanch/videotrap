@@ -28,9 +28,9 @@ def createGif(restoredList):
             image = imageio.imread(filename)
             writer.append_data(image)
 
-    #for filename in filePics:
-    #    os.remove(filename)
-    #os.rmdir('/dev/shm/videoTrap/' + timestr)
+    for filename in filePics:
+        os.remove(filename)
+    os.rmdir('/dev/shm/videoTrap/' + timestr)
     dtim = (-timeStart + time.time())
     print(timestr + " kadrs="+str(len(restoredList))+" time="+str(dtim))
     return timestr+'.gif'
