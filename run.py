@@ -1,5 +1,5 @@
 #Import necessary libraries
-from flask import Flask, render_template, Response, send_file
+from flask import Flask, render_template, Response, send_file,request,jsonify
 import cv2
 import time
 from VideoTrap import videoTrap
@@ -15,8 +15,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    page = request.args.get('page', default=1, type=int)
     # we have template for main page (timeline.html)
-    return vt.renderTimeLine()
+    return vt.renderTimeLine(page)
+
+@app.route('/getT', methods=['GET', 'POST'])
+def getT():
+    ts = request.args.get('ts', default=1000, type=float)
+    return jsonify(result=vt.getLast(ts))
+
 
 
 @app.route('/img/<name>')
@@ -41,4 +48,4 @@ if __name__ == "__main__":
     p = Process(target=createVT)
     p.start()  # starting subprocces for aditional cv2 loop
 
-    app.run(host = '192.168.1.98',port = 5000, debug=False)
+    app.run(host = '192.168.1.43',port = 5000, debug=True)

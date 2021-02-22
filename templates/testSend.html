@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script  type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+
+  <input type="submit" id="upload-file-btn" value="test jquerry" />
+  <!-- результат будет отображён в этом div -->
+  <br>
+  result:<br>
+
+<div id="result"></div>
+  <br>
+<div id="json"></div>
+
+<script  type="text/javascript">
+$(function() {
+    $('#upload-file-btn').click(function() {
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/getT',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log('Success!');
+                //$("#result").text(data.result["price"]);
+
+                var output='<ul>';
+                for(var key in data.result) {
+                    output += '<li>' + key + ':' + data.result[key] +'</li>';
+                    }
+                output+="</ul>";
+                document.getElementById("json").insertAdjacentHTML('afterbegin',output);
+            },
+        });
+    });
+});
+
+setInterval(function () {
+    $.ajax({
+        type: "post",
+        url: "/getT",
+        data: $('#ajaxForm').serialize(),
+        success: function(data) {
+            console.log('success!');
+                var output='<ul>';
+                for(var key in data.result) {
+                    output += '<li>' + key + ':' + data.result[key] +'</li>';
+                    }
+                output+="</ul>";
+                document.getElementById("json").insertAdjacentHTML('afterbegin',output);
+        }
+    });
+}, 1000);
+
+</script>
+</body>
+</html>
+</body>
+</html>

@@ -5,7 +5,11 @@
 
   border-radius: 3px;
 }
+.minimizedNew {
+    border-radius: 3px;
+    outline: 1px solid;
 
+}
 .minimized:hover {
 
           -webkit-filter: brightness(135%);
