@@ -5,7 +5,7 @@ import datetime as dt
 # from grap import getPlot
 # from PIL import Image, ImageTk
 
-apiKey = 'enter here'
+apiKey = 'enter your api here'
 
 
 s_city = "Ekaterinburg"
