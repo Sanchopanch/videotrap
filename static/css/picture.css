@@ -3,10 +3,10 @@
 
   cursor: pointer;
 
-  border-radius: 3px;
+  border-radius: 10px;
 }
 .minimizedNew {
-    border-radius: 3px;
+    border-radius: 10px;
     outline: 1px solid;
 
 }
