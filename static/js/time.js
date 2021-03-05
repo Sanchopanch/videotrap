@@ -35,6 +35,7 @@ $(function(){
 
 
 setInterval(function () {
+    if (document.hidden) return
     $.ajax({
         type: "post",
         url: "/getT?ts="+currentTS,
