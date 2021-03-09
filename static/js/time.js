@@ -1,7 +1,7 @@
 function addEv()
 {
 $(function(){
-  $('.minimizedNew').click(function(event) {
+  $('.minimizedNew1').click(function(event) {
     var i_path = $(this).attr('maximize');
     if ($(this).attr("src") == $(this).attr("minim"))
         {
@@ -20,8 +20,9 @@ $(function(){
             });
         $('#overlay, #magnify').fadeIn('fast');
         }
-  });
 
+  });
+  $('.minimizedNew1').attr('class', 'minimizedNew');
   $('body').on('click', '#close-popup, #overlay', function(event) {
     event.preventDefault();
 
@@ -62,7 +63,7 @@ setInterval(function () {
                         document.getElementById("lastHour").id = 'aaaa';
                         document.getElementById("lastDay").insertAdjacentHTML('afterbegin',output);
                     }
-                    var output='<img class="minimizedNew" src="/img/'+ item[0]+'" '
+                    var output='<img class="minimizedNew1" src="/img/'+ item[2]+'" '
                      +' maximize="/img/'+ item[1]+'" '
                      +' minim="/img/'+ item[0]+'" '
                      +' gifi="/img/'+ item[2]+'"> ';
