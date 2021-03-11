@@ -44,46 +44,45 @@ class videoTrap():
         with open(self.fileTrack, 'wb') as f:
             pickle.dump(li, f)
 
-    def saveFrame(self,frame,recAll):
+    def saveFrame(self,frame,recAll, timeout = False):
 
         restoredDict,restoredList = self.loadState()  #restore state
         #copyFrame = frame.copy()
         tstam = time.time()
-        if len(restoredList) == 0:
-            restoredList.append([tstam,frame])
+#        if len(restoredList) == 0:
+        restoredList.append([tstam,frame])
+        lastFrame = restoredList[len(restoredList)-1]
+        if tstam-lastFrame[0]<3.5 and not len(restoredList)>10 and not timeout:  #sec , 10 frames GIF maximum
+            pass
         else:
-            lastFrame = restoredList[len(restoredList)-1]
-            if tstam-lastFrame[0]<3.5 and not len(restoredList)>10:  #sec , 10 frames GIF maximum
-                restoredList.append([tstam, frame])
-            else:
-                fGIF = createGif(restoredList, self.workPath,self.scale_percent)  # creating file from frames
-                frameM = restoredList[int(len(restoredList)*.49)][1]
-                width = int(frameM.shape[1] * self.scale_percent / 100)
-                height = int(frameM.shape[0] * self.scale_percent / 100)
-                frameSm = cv2.resize(frameM, (width, height))
-                if not recAll is None:
-                    cv2.rectangle(frameM, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
+            fGIF = createGif(restoredList, self.workPath,self.scale_percent)  # creating file from frames
+            frameM = restoredList[int(len(restoredList)*.49)][1]
+            width = int(frameM.shape[1] * self.scale_percent / 100)
+            height = int(frameM.shape[0] * self.scale_percent / 100)
+            frameSm = cv2.resize(frameM, (width, height))
+            if not recAll is None:
+                cv2.rectangle(frameM, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
 
-                restoredDict, fName, fNameFull = appendHour(restoredDict, tstam, fGIF)
-                cv2.imwrite(self.workPath + '/'+fName,frameSm)
-                cv2.imwrite(self.workPath + '/'+fNameFull,frameM)
-                tstam = time.time() #again
-                restoredList = [[tstam,frame]]   # clear list of frames for next moove
+            restoredDict, fName, fNameFull = appendHour(restoredDict, tstam, fGIF)
+            cv2.imwrite(self.workPath + '/'+fName,frameSm)
+            cv2.imwrite(self.workPath + '/'+fNameFull,frameM)
+            tstam = time.time() #again
+            restoredList = [[tstam,frame]]   # clear list of frames for next moove
 
-                #delete oldy frames from mem
-                if len(restoredDict)>0:
-                    firstDate = list(restoredDict.keys())[-1]
-                    if len(restoredDict[firstDate])>0:
-                        firstHour = list(restoredDict[firstDate].keys())[-1]
-                        firstTS = restoredDict[firstDate][firstHour][0][3]
-                        if tstam - firstTS > 86400 * 1:   #* days
-                            print('deleting '+firstDate)
-                            for hhh,lis in restoredDict[firstDate].items():
-                                for kkk in lis:
-                                    os.remove(self.workPath + '/'+kkk[0])
-                                    os.remove(self.workPath + '/'+kkk[1])
-                                    os.remove(self.workPath + '/'+kkk[2])
-                            del restoredDict[firstDate]
+            #delete oldy frames from mem
+            if len(restoredDict)>0:
+                firstDate = list(restoredDict.keys())[-1]
+                if len(restoredDict[firstDate])>0:
+                    firstHour = list(restoredDict[firstDate].keys())[-1]
+                    firstTS = restoredDict[firstDate][firstHour][0][3]
+                    if tstam - firstTS > 86400 * 1:   #* days
+                        print('deleting '+firstDate)
+                        for hhh,lis in restoredDict[firstDate].items():
+                            for kkk in lis:
+                                os.remove(self.workPath + '/'+kkk[0])
+                                os.remove(self.workPath + '/'+kkk[1])
+                                os.remove(self.workPath + '/'+kkk[2])
+                        del restoredDict[firstDate]
 
 
 
@@ -171,11 +170,12 @@ class videoTrap():
                         self.saveFrame(frame,recAll)
                         lastC = 1
                     elif lastC>0:
-                        self.saveFrame(frame, None)
                         if lastC <= tolerance:
                             lastC +=1
+                            self.saveFrame(frame, None)
                         else:
                             lastC = 0
+                            self.saveFrame(frame, None, timeout=True)
 
                 prevFrame = gray.copy()
 
