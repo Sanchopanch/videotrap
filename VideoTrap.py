@@ -109,6 +109,7 @@ class videoTrap():
         pressure = data['main']['pressure']
 
         weather = {'t':t,'con':con,'wind':wind,'winddesc':winddesc,'place':place,'pressure':pressure}
+
         if page==1:
             coun = 0
             for ddd,dic in restoredDict.items():
@@ -142,6 +143,7 @@ class videoTrap():
                         frame.append(currH)
                         rezList.append(frame)
         result = {'currTS':time.time(),'len':len(rezList)}
+        rezList = sorted(rezList, key=lambda x: x[3], reverse=True)
         if len(rezList)>0:
             result['rez'] = rezList
         return result
@@ -169,7 +171,7 @@ class videoTrap():
 
             else:
                 #print("fail")
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.4)
 
 
 
