@@ -57,16 +57,18 @@ class videoTrap():
                 restoredList.append([tstam, frame])
             else:
                 fGIF = createGif(restoredList, self.workPath,self.scale_percent)  # creating file from frames
-                frame = restoredList[int(len(restoredList)*.49)][1]
-                width = int(frame.shape[1] * self.scale_percent / 100)
-                height = int(frame.shape[0] * self.scale_percent / 100)
-                frameSm = cv2.resize(frame, (width, height))
-                cv2.rectangle(frame, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
+                frameM = restoredList[int(len(restoredList)*.49)][1]
+                width = int(frameM.shape[1] * self.scale_percent / 100)
+                height = int(frameM.shape[0] * self.scale_percent / 100)
+                frameSm = cv2.resize(frameM, (width, height))
+                if not recAll is None:
+                    cv2.rectangle(frameM, (recAll[0]-10, recAll[1]-10), (recAll[2]+10, recAll[3]+10), (150, 150, 0), 1)
 
                 restoredDict, fName, fNameFull = appendHour(restoredDict, tstam, fGIF)
                 cv2.imwrite(self.workPath + '/'+fName,frameSm)
-                cv2.imwrite(self.workPath + '/'+fNameFull,frame)
-                restoredList = []   # clear list of frames for next moove
+                cv2.imwrite(self.workPath + '/'+fNameFull,frameM)
+                tstam = time.time() #again
+                restoredList = [[tstam,frame]]   # clear list of frames for next moove
 
                 #delete oldy frames from mem
                 if len(restoredDict)>0:
@@ -143,13 +145,15 @@ class videoTrap():
                         frame.append(currH)
                         rezList.append(frame)
         result = {'currTS':time.time(),'len':len(rezList)}
-        rezList = sorted(rezList, key=lambda x: x[3], reverse=True)
+        rezList = sorted(rezList, key=lambda x: x[3], reverse=False)
         if len(rezList)>0:
             result['rez'] = rezList
         return result
         pass
 
     async def capFrames(self):
+        tolerance = 2 #cadrs
+        lastC = 0 #cadrs
         camera = cv2.VideoCapture(-1)
         prevFrame = None
         while True:
@@ -165,6 +169,14 @@ class videoTrap():
                     recAll = surroundRecs(recs)
                     if different:
                         self.saveFrame(frame,recAll)
+                        lastC = 1
+                    elif lastC>0:
+                        self.saveFrame(frame, None)
+                        if lastC <= tolerance:
+                            lastC +=1
+                        else:
+                            lastC = 0
+
                 prevFrame = gray.copy()
 
                 await asyncio.sleep(1) #return execution for 1 sec
