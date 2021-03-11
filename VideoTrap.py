@@ -36,7 +36,7 @@ class videoTrap():
         else:
             restoredList = []
 
-        return restoredDict,restoredList
+        return restoredDict, restoredList
 
     def saveState(self,di,li):
         with open(self.fileState, 'wb') as f:
