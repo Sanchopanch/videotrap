@@ -12,7 +12,7 @@ Example time line in mobile browser:
 
 on click or touch little picture it perlesed to GIF moove like this:
 
-<img src='images\exMov.gif'>
+<img src='images\exPic.gif'>
 
 if you click on this pic again you see picture in original size on screen.
 
