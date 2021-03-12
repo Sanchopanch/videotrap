@@ -21,3 +21,4 @@ It is remarkable that no flash memory uses except boot and store program.
 Any data located in memory and reset when your device rebooted.
 
 <img src='images\howItlooklike.jpeg'>
+<img src='images\exTL2.jpg'>
