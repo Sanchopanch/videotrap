@@ -18,4 +18,6 @@ if you click on this pic again you see picture in original size on screen.
 
 It is use flask framework and openCV to accumulate events and represent them.
 It is remarkable that no flash memory uses except boot and store program.
-Any data located in memory and reset when your device rebooted'
+Any data located in memory and reset when your device rebooted.
+
+<img src='images\howItlooklike.jpeg'>
