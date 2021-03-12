@@ -5,8 +5,9 @@ import datetime as dt
 # from grap import getPlot
 # from PIL import Image, ImageTk
 
-apiKey = 'your key here'
-
+apiKey = 'your api key here'
+cashWeather = None
+timeWeather = 100.0
 
 s_city = "Ekaterinburg"
 city_id = 0
@@ -34,17 +35,32 @@ def getCity():
 # city_id= 1486209
 
 def getweather(city_id):
+    global cashWeather
+    global timeWeather
+    currTime = time.time()
+    if currTime-timeWeather > 120 or cashWeather is None:
+        cashWeather = getweatherAPI(city_id)
+        timeWeather = currTime
+        print('weather has updated frm API')
+        return cashWeather
+    else:
+        return cashWeather
+
+
+def getweatherAPI(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/weather",
                            params={'id': city_id, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
         data = res.json()
         # print("conditions:", data['weather'][0]['description'])
         # print("temp:", data['main']['temp'])
-        #print(data)
-        return data #data['main']['temp'],data['weather'][0]['description']
+        # print(data)
+        return data  # data['main']['temp'],data['weather'][0]['description']
     except Exception as e:
         print("Exception (weather):", e)
         return None
+
+
 def getforeca(city_id):
     try:
         res = requests.get("http://api.openweathermap.org/data/2.5/forecast",
