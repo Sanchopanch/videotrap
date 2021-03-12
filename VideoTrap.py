@@ -47,9 +47,7 @@ class videoTrap():
     def saveFrame(self,frame,recAll, timeout = False):
 
         restoredDict,restoredList = self.loadState()  #restore state
-        #copyFrame = frame.copy()
         tstam = time.time()
-#        if len(restoredList) == 0:
         restoredList.append([tstam,frame])
         lastFrame = restoredList[len(restoredList)-1]
         if tstam-lastFrame[0]<3.5 and not len(restoredList)>10 and not timeout:  #sec , 10 frames GIF maximum
@@ -67,7 +65,7 @@ class videoTrap():
             cv2.imwrite(self.workPath + '/'+fName,frameSm)
             cv2.imwrite(self.workPath + '/'+fNameFull,frameM)
             tstam = time.time() #again
-            restoredList = [[tstam,frame]]   # clear list of frames for next moove
+            restoredList = []   # clear list of frames for next moove
 
             #delete oldy frames from mem
             if len(restoredDict)>0:
