@@ -73,7 +73,7 @@ class videoTrap():
                 if len(restoredDict[firstDate])>0:
                     firstHour = list(restoredDict[firstDate].keys())[-1]
                     firstTS = restoredDict[firstDate][firstHour][0][3]
-                    if tstam - firstTS > 86400 * 1:   #* days
+                    if tstam - firstTS > 86400 * 3:   #3 days
                         print('deleting '+firstDate)
                         for hhh,lis in restoredDict[firstDate].items():
                             for kkk in lis:
