@@ -90,4 +90,12 @@ if __name__ == "__main__":
     p = Process(target=createVT)
     p.start()  # starting subprocces for aditional cv2 loop
 
-    app.run(host = '192.168.1.43',port = 5000, debug=True)
+    success = False
+    while not success:
+        try:
+            app.run(host = '192.168.1.43',port = 5000, debug=True)
+            success = True
+        except:
+            print('Error start app on host. Wait 5 sec...')
+            time.sleep(5)
+            pass
