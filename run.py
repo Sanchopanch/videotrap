@@ -81,7 +81,7 @@ def createVT():
 
 
 def loginForm():
-    return '<html><body> <form method=post >imya:<input type=text name=uuu /><br/> parol:<input type=password name=ppp /> <br /> <input type=submit /> </form> </body></html>'
+    return '<html><body> <form method=post >imya:<input type=text name=uuu style="font-size: 300%;"/><br/> parol:<input type=password name=ppp style="font-size: 300%;"/> <br /> <input type=submit style="font-size: 300%;"/> </form> </body></html>'
 
 if __name__ == "__main__":
 
